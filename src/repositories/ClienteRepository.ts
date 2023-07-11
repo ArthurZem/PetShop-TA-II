@@ -1,17 +1,45 @@
-import { IClienteRepository } from "src/interfaces/IClienteRepository";
-import { Cliente } from "src/domain/Cliente";
+import { IClienteRepository } from 'src/interfaces/IClienteRepository';
+import { Cliente } from 'src/domain/Cliente';
 
-class ClienteRepository implements IClienteRepository{
-    findById(id: number): Promise<Cliente | null> {
-        throw new Error("Method not implemented.");
+export class ClienteRepository implements IClienteRepository {
+  private clientes: Cliente[];
+
+  constructor() {
+    this.clientes = [];
+  }
+    findByNome(nome: string): Promise<Cliente[]> { 
+      return new Promise( (resolve, reject)=>{
+        const results = this.clientes.filter(cliente => cliente.nome === nome);
+        resolve(results);
+      });
     }
-    findByNome(nome: string): Promise<Cliente[]> {
-        throw new Error("Method not implemented.");
+
+  public async findById(id: number): Promise<Cliente | null> {
+    // Busca um cliente pelo ID no array de clientes em memória
+    const cliente = this.clientes.find((c) => c.id === id);
+    return cliente || null;
+  }
+
+  public async save(cliente: Cliente): Promise<void> {
+    // Adiciona ou atualiza um cliente no array de clientes em memória
+    const index = this.clientes.findIndex((c) => c.id === cliente.id);
+
+    if (index === -1) {
+      // Se o cliente não existe, adiciona no array
+      this.clientes.push(cliente);
+    } else {
+      // Se o cliente já existe, atualiza no array
+      this.clientes[index] = cliente;
     }
-    save(cliente: Cliente): Promise<void> {
-        throw new Error("Method not implemented.");
+  }
+
+  public async delete(cliente: Cliente): Promise<void> {
+    // Remove um cliente do array de clientes em memória
+    const index = this.clientes.findIndex((c) => c.id === cliente.id);
+
+    if (index !== -1) {
+      // Se o cliente existe no array, remove
+      this.clientes.splice(index, 1);
     }
-    delete(cliente: Cliente): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
+  }
 }
