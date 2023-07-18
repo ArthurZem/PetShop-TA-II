@@ -1,4 +1,4 @@
-export class Animal{
+export class Produto{
     id:number;
     nome: String;
     preco: number;
