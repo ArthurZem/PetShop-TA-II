@@ -20,11 +20,11 @@ export class ClienteController {
         }
     }
 
-    public async obterCliente(req: Request, res: Response): Promise<void>{
+    public async findById(req: Request, res: Response): Promise<void>{
         try{
             const clienteId = Number(req.params.id);
 
-            const cliente = await this.clienteService.obterCliente(clienteId);
+            const cliente = await this.clienteService.findById(clienteId);
          
             if(cliente){
                 res.status(200).json(cliente)

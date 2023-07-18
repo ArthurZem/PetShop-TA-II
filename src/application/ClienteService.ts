@@ -21,9 +21,16 @@ export class ClienteService{
         return cliente;
     }
 
-    public async obterCliente(clienteId: number): Promise<Cliente | null>{
-        const cliente = await this.clienteRepository.findById(clienteId);
+    public async findById(id:number): Promise<Cliente | null> {
+        const cliente = await this.clienteRepository.findById(id);
 
         return cliente;
     }
+    
+    public async findByName(nome:string) : Promise<Cliente[]>{
+        const cliente = await this.clienteRepository.findByNome(nome);
+
+        return cliente;
+    }
+
 }
