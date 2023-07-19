@@ -1,6 +1,6 @@
 import { Animal } from "./Animal";
 
-class Cliente {
+export class Cliente {
     id: number;
     nome: String;
     telefone: String;
@@ -16,6 +16,3 @@ class Cliente {
     }
 
 }
-
-export {Cliente};
-

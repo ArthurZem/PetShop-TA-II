@@ -8,7 +8,7 @@ export class ClienteController {
         this.clienteService = clienteService;
     }
 
-    public async CriarCliente(req: Request, res: Response): Promise<void>{
+    public async criarCliente(req: Request, res: Response): Promise<void>{
         try{
             const { id, nome, telefone, endereco } = req.body;
 
