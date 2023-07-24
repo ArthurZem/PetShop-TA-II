@@ -1,57 +1,40 @@
-import { Request, Response } from "express";
-import { ProdutoService } from "../application/ProdutoService";
-import { Produto } from "../domain/Produto";
-import { ProdutoRepository } from "src/repositories/ProdutoRepository";
+import { Request,Response } from "express";
+import { ProdutoService } from "src/application/ProdutoService";
 
 export class ProdutoController {
-  private produtoService: ProdutoService;
+    private produtoService: ProdutoService;
 
-  constructor(produtoService: ProdutoService) {
-    this.produtoService = produtoService;
-  }
-  
-
-  public async criarProduto(req: Request, res: Response): Promise<void> {
-    const { id, nome, preco, estoque } = req.body;
-    try {
-      const produto = await this.produtoService.criarProduto(id,nome, preco, estoque);
-      res.status(201).json(produto);
-    } catch (error) {
-      console.log('Erro ao criar produto.', error);
-      if(error instanceof Error){
-        res.status(400).json({message: `Erro ao criar produto: ${error.message}`})
-      }else{
-        res.status(500).json({message: `Erro interno no servidor`})
-      }
+    constructor(produtoService: ProdutoService){
+        this.produtoService = produtoService;
     }
-  }
 
-  public async listarProdutos(req: Request, res: Response): Promise<void> {
-    try {
-      const produtos = await this.produtoService.listarProdutos();
-      res.json(produtos);
-    } catch (error) {
-      res.status(500).json({ message: "Erro ao listar produtos" });
-    }
-  }
+    public async criarProduto(req: Request, res: Response): Promise<void>{
+        try{
+            const { id, nome, preco, estoque} = req.body;
 
-  public async encontrarProdutoPorId(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-    try {
-      const produtoId = parseInt(id, 10);
-      const produto = await this.produtoService.encontrarProdutoPorId(produtoId);
-      if (produto) {
-        res.json(produto);
-      } else {
-        res.status(404).json({ message: "Produto não encontrado" });
-      }
-    } catch (error) {
-      res.status(400).json({ message: "ID de produto inválido" });
+            const Produto = await this.produtoService.criarProduto(id, nome, preco, estoque);
+
+            res.status(201).json(Produto);
+        }catch(error){
+            res.status(500).json({error: 'Erro ao criar Produto.'})
+        }
     }
-  }
+
+    public async findById(req: Request, res: Response): Promise<void>{
+        try{
+            const ProdutoId = Number(req.params.id);
+
+            const Produto = await this.produtoService.findById(ProdutoId);
+         
+            if(Produto){
+                res.status(200).json(Produto)
+            }
+            else{
+                res.status(404).json({error: 'Produto não encontrado.'})
+            }
+        } catch(error){
+            res.status(500).json({ error:'Erro ao tentar obter Produto.'})
+        }
+    }
+
 }
-
-const produtoRepository = new ProdutoRepository();
-const produtoService = new ProdutoService(produtoRepository);
-const produtoController = new ProdutoController(produtoService);
-

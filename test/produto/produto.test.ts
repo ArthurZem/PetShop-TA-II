@@ -8,7 +8,7 @@ describe('Produto', () => {
     it('deve criar um produto com os atributos corretos', () => {
       const id = 1;
       const nome = 'Ração para Cães';
-      const preco = 50.99;
+      const preco = "R$50.99";
       const estoque = 100;
 
       const produto = new Produto(id, nome, preco, estoque);

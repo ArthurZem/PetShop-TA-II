@@ -1,5 +1,5 @@
-import { Produto } from "src/domain/Produto";
 import { IProdutoRepository } from "src/interfaces/IProdutoRepository";
+import { Produto } from "src/domain/Produto";
 
 export class ProdutoService {
   private produtoRepository: IProdutoRepository;
@@ -18,7 +18,7 @@ export class ProdutoService {
     return this.produtoRepository.findAll();
   }
 
-  public async encontrarProdutoPorId(id: number): Promise<Produto | null> {
+  public async findById(id: number): Promise<Produto | null> {
     return this.produtoRepository.findById(id);
   }
 
