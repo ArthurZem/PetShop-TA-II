@@ -14,9 +14,7 @@ export class ClienteService{
         if(clienteExistente){
             throw new Error('ID já cadastrado para outro cliente.')
         }
-        // criação de instância
         const cliente = new Cliente(id,nome,telefone,endereco);
-        // salvar cliente no repositório
         await this.clienteRepository.save(cliente);
 
         return cliente;
