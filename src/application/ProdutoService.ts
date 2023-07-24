@@ -8,7 +8,7 @@ export class ProdutoService {
     this.produtoRepository = produtoRepository;
   }
 
-  public async criarProduto(id: number, nome: string, preco: number, estoque: number): Promise<Produto> {
+  public async criarProduto(id: number, nome: string, preco: String, estoque: number): Promise<Produto> {
     const produto = new Produto(id, nome, preco, estoque);
     await this.produtoRepository.save(produto);
     return produto;

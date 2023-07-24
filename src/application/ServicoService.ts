@@ -8,7 +8,7 @@ export class ServicoService {
     this.ServicoRepository = ServicoRepository;
   }
 
-  public async criarServico(id: number, nome: string, preco: number): Promise<Servico> {
+  public async criarServico(id: number, nome: string, preco: String): Promise<Servico> {
     const servico = new Servico(id, nome, preco);
     await this.ServicoRepository.save(servico);
     return servico;
@@ -18,7 +18,7 @@ export class ServicoService {
     return this.ServicoRepository.findAll();
   }
 
-  public async encontrarServicoPorId(id: number): Promise<Servico | null> {
+  public async findById(id: number): Promise<Servico | null> {
     return this.ServicoRepository.findById(id);
   }
 

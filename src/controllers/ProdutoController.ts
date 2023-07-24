@@ -12,9 +12,9 @@ export class ProdutoController {
         try{
             const { id, nome, preco, estoque} = req.body;
 
-            const Produto = await this.produtoService.criarProduto(id, nome, preco, estoque);
+            const produto = await this.produtoService.criarProduto(id, nome, preco, estoque);
 
-            res.status(201).json(Produto);
+            res.status(201).json(produto);
         }catch(error){
             res.status(500).json({error: 'Erro ao criar Produto.'})
         }
