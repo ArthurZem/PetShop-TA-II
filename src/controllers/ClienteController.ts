@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { ClienteService } from "src/application/ClienteService";
+import { Animal } from "src/domain/Animal";
 
 export class ClienteController {
     private clienteService: ClienteService;
@@ -36,5 +37,15 @@ export class ClienteController {
             res.status(500).json({ error:' Erro ao tentar obter o cliente.'})
         }
     }
+
+    public async getAnimaisDoCliente(req: Request, res: Response): Promise<void> {
+        const clienteId: number = Number(req.params.clienteId);
+        try {
+          const animais: Animal[] = await this.clienteService.getAnimaisDoDono(clienteId);
+          res.status(200).json(animais);
+        } catch (error) {
+          res.status(500).json({ error: "Erro ao obter os animais do cliente." });
+        }
+      }
     
 }

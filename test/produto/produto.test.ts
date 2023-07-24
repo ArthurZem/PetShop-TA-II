@@ -1,7 +1,7 @@
-import { ProdutoService } from "../src/application/ProdutoService";
-import { ProdutoController } from "../src/controllers/ProdutoController";
-import {ProdutoRepository} from "../src/repositories/ProdutoRepository";
-import { Produto } from "../src/domain/Produto";
+import { ProdutoService } from "../../src/application/ProdutoService";
+import { ProdutoController } from "../../src/controllers/ProdutoController";
+import {ProdutoRepository} from "../../src/repositories/ProdutoRepository";
+import { Produto } from "../../src/domain/Produto";
 
 describe('Produto', () => {
   describe('Produto Model', () => {

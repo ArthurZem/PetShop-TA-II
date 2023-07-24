@@ -1,4 +1,5 @@
 import { IClienteRepository } from "src/interfaces/IClienteRepository";
+import { Animal } from "src/domain/Animal";
 import { Cliente } from "src/domain/Cliente";
 
 export class ClienteService{
@@ -31,6 +32,10 @@ export class ClienteService{
         const cliente = await this.clienteRepository.findByNome(nome);
 
         return cliente;
+    }
+
+    public async getAnimaisDoDono(donoId: number): Promise<Animal[]>{
+        return this.clienteRepository.getAnimaisDoDono(donoId)
     }
 
 }

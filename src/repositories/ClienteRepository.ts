@@ -1,8 +1,10 @@
 import { IClienteRepository } from 'src/interfaces/IClienteRepository';
 import { Cliente } from 'src/domain/Cliente';
+import { Animal } from 'src/domain/Animal';
 
 export class ClienteRepository implements IClienteRepository {
   private clientes: Cliente[];
+  private clienteRepository: IClienteRepository;
 
   constructor() {
     this.clientes = [];
@@ -41,5 +43,9 @@ export class ClienteRepository implements IClienteRepository {
       // Se o cliente existe no array, remove
       this.clientes.splice(index, 1);
     }
+  }
+
+  public async getAnimaisDoDono(donoId: number): Promise<Animal[]>{
+    return this.clienteRepository.getAnimaisDoDono(donoId)
   }
 }

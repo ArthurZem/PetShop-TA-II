@@ -33,7 +33,24 @@ export class AnimalController {
                 res.status(404).json({error: 'Animal não encontrado.'})
             }
         } catch(error){
-            res.status(500).json({ error:' Erro ao tentar obter o Animal.'})
+            res.status(500).json({ error:'Erro ao tentar obter animal.'})
+        }
+    }
+
+    public async findByEspecie(req: Request, res: Response): Promise<void>{
+        try{
+            const especie = String(req.params.especie);
+
+            const animal = await this.animalService.findByEspecie(especie);
+         
+            if(animal){
+                res.status(200).json(animal)
+            }
+            else{
+                res.status(404).json({error: 'Espécie não encontrada.'})
+            }
+        } catch(error){
+            res.status(500).json({ error:'Erro ao tentar obter espécie.'})
         }
     }
 }

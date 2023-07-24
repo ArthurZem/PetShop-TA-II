@@ -14,9 +14,7 @@ export class AnimalService{
         if(animalExistente){
             throw new Error('ID já cadastrado para outro cliente.')
         }
-        // criação de instância
         const animal = new Animal(id,nome,especie,raca,idade,dono);
-        // salvar cliente no repositório
         await this.animalRepository.save(animal);
 
         return animal;
@@ -28,9 +26,10 @@ export class AnimalService{
         return animal;
     }
     
-    public async findByName(nome:string) : Promise<Animal[]>{
-        const animal = await this.animalRepository.findByNome(nome);
+    public async findByEspecie(nome:string) : Promise<Animal[]>{
+        const animal = await this.animalRepository.findByEspecie(nome);
 
         return animal;
     }
+
 }
