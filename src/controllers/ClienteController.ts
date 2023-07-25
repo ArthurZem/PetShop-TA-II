@@ -48,4 +48,20 @@ export class ClienteController {
         }
       }
     
+      public async delete(req: Request, res: Response): Promise<void> {
+        const clienteId = Number(req.params.id);
+
+        try {
+            const cliente = await this.clienteService.findById(clienteId);
+
+            if (cliente) {
+                await this.clienteService.delete(cliente);
+                res.status(204).send();
+            } else {
+                res.status(404).json({ error: "Cliente não encontrado." });
+            }
+        } catch (error) {
+            res.status(500).json({ error: "Erro ao tentar deletar o Cliente." });
+        }
+    }
 }

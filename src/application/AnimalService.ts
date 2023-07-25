@@ -1,9 +1,10 @@
 import { IAnimalRepository } from "src/interfaces/IAnimalRepository";
-import { Animal } from "src/domain/Animal";
 import { Cliente } from "src/domain/Cliente";
+import {Animal} from '../domain/Animal'
 
 export class AnimalService{
     private animalRepository: IAnimalRepository;
+    private animais: Animal[] = [];
 
     constructor(animalRepository:IAnimalRepository){
         this.animalRepository = animalRepository;
@@ -30,6 +31,14 @@ export class AnimalService{
         const animal = await this.animalRepository.findByEspecie(nome);
 
         return animal;
+    }
+
+    public async delete(animal: Animal): Promise<void> {
+        const index = this.animais.findIndex((c) => c.id === animal.id);
+
+        if (index !== -1) {
+            this.animais.splice(index, 1);
+        }
     }
 
 }

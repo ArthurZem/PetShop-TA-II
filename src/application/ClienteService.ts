@@ -1,9 +1,10 @@
 import { IClienteRepository } from "src/interfaces/IClienteRepository";
 import { Animal } from "src/domain/Animal";
-import { Cliente } from "src/domain/Cliente";
+import {Cliente} from '../domain/Cliente'
 
 export class ClienteService{
     private clienteRepository: IClienteRepository;
+    private clientes: Cliente[];
 
     constructor(clienteRepository:IClienteRepository){
         this.clienteRepository = clienteRepository;
@@ -34,6 +35,14 @@ export class ClienteService{
 
     public async getAnimaisDoDono(donoId: number): Promise<Animal[]>{
         return this.clienteRepository.getAnimaisDoDono(donoId)
+    }
+
+    public async delete(cliente: Cliente): Promise<void> {
+        const index = this.clientes.findIndex((c) => c.id === cliente.id);
+
+        if (index !== -1) {
+            this.clientes.splice(index, 1);
+        }
     }
 
 }
