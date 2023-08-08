@@ -1,5 +1,5 @@
 export class Servico{
-    id:number;
+    id: number;
     nome: String;
     preco: String;
 

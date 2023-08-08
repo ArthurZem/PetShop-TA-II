@@ -9,6 +9,16 @@ import { AnimalController } from './controllers/AnimalController';
 import { ClienteRepository } from './repositories/ClienteRepository';
 import { ClienteService } from './application/ClienteService';
 import { ClienteController } from './controllers/ClienteController';
+import { ServicoRepository } from './repositories/ServicoRepository';
+import { ServicoService } from './application/ServicoService';
+import { ServicoController } from './controllers/ServicoController';
+import { Servico } from './domain/Servico';
+import { ProdutoService } from './application/ProdutoService';
+import { ProdutoController } from './controllers/ProdutoController';
+import { ProdutoRepository } from './repositories/ProdutoRepository';
+import { UsuarioService } from './application/UsuarioService';
+import { UsuarioRepository } from './repositories/UsuarioRepository';
+import { UsuarioController } from './controllers/UsuarioController';
 
 const app = express()
 const route = Router();
@@ -46,3 +56,31 @@ app.post('/clientes',clienteController.criarCliente.bind(clienteController));
 app.get('/clientes/:id',clienteController.findById.bind(clienteController));
 app.delete('/clientes:/id',clienteController.delete.bind(clienteController));
 app.get('/clientes/:animal',clienteController.getAnimaisDoCliente.bind(clienteController));
+
+// rotas de serviços
+
+const servicoRepository = new ServicoRepository();
+const servicoService = new ServicoService(servicoRepository);
+const servicoController = new ServicoController(servicoService);
+app.post('/servicos',servicoController.criarServico.bind(servicoController));
+app.get('/servicos/:id',servicoController.findById.bind(servicoController));
+app.delete('/servicos:/id',servicoController.delete.bind(servicoController));
+app.get('/servicos',servicoController.listarServicos.bind(servicoController));
+
+//rotas de produto
+
+const produtoRepository = new ProdutoRepository();
+const produtoService = new ProdutoService(produtoRepository);
+const produtoController = new ProdutoController(produtoService);
+app.post('/produtos',produtoController.criarProduto.bind(produtoController));
+app.get('/produtos/:id',produtoController.findById.bind(produtoController));
+app.delete('/produtos:/id',produtoController.delete.bind(produtoController));
+app.get('/produtos',produtoController.listarProdutos.bind(produtoController));
+
+// rotas de usuário
+
+const usuarioRepository = new UsuarioRepository();
+const usuarioService = new UsuarioService(usuarioRepository);
+const usuarioController = new UsuarioController(usuarioService);
+app.post('/produtos',usuarioController.criarUsuario.bind(usuarioController));
+app.get('/login',usuarioController.login.bind(usuarioController));

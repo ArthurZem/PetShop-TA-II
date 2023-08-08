@@ -1,5 +1,5 @@
-import { Servico } from "src/domain/Servico";
 import { IServicoRepository } from "src/interfaces/IServicoRepository";
+import {Servico} from '../domain/Servico'
 
 export class ServicoService {
   private ServicoRepository: IServicoRepository;
@@ -22,4 +22,7 @@ export class ServicoService {
     return this.ServicoRepository.findById(id);
   }
 
+  public async delete(servico: Servico): Promise<void> {
+    await this.ServicoRepository.delete(servico);
+  }
 }

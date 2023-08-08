@@ -22,17 +22,17 @@ export class ServicoRepository implements IServicoRepository {
     return Servico || null;
   }
 
-  public async save(Servico: Servico): Promise<void> {
-    const index = this.Servicos.findIndex((p) => p.id === Servico.id);
+  public async save(servico: Servico): Promise<void> {
+    const index = this.Servicos.findIndex((s) => s.id === servico.id);
     if (index === -1) {
-      this.Servicos.push(Servico);
+      this.Servicos.push(servico);
     } else {
-      this.Servicos[index] = Servico;
+      this.Servicos[index] = servico;
     }
   }
 
   public async delete(Servico: Servico): Promise<void> {
-    const index = this.Servicos.findIndex((p) => p.id === Servico.id);
+    const index = this.Servicos.findIndex((s) => s.id === Servico.id);
     if (index !== -1) {
       this.Servicos.splice(index, 1);
     }

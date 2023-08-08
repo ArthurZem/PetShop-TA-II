@@ -22,4 +22,8 @@ export class ProdutoService {
     return this.produtoRepository.findById(id);
   }
 
+  public async delete(produto: Produto): Promise<void> {
+    await this.produtoRepository.delete(produto);
+  }
+
 }
