@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { ServicoService } from "../application/ServicoService";
-import { Servico } from "../domain/Servico";
-import { ServicoRepository } from "src/repositories/ServicoRepository";
 
 export class ServicoController {
   private servicoService: ServicoService;
@@ -10,7 +8,6 @@ export class ServicoController {
     this.servicoService = ServicoService;
   }
   
-
   public async criarServico(req: Request, res: Response): Promise<void>{
     try{
         const { id, nome, preco, estoque} = req.body;

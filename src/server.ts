@@ -10,7 +10,6 @@ import { ClienteRepository } from './repositories/ClienteRepository';
 import { ClienteService } from './application/ClienteService';
 import { ClienteController } from './controllers/ClienteController';
 
-
 const app = express()
 const route = Router();
 app.use(loggerMiddleware);
