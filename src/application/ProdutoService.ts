@@ -1,5 +1,5 @@
 import { IProdutoRepository } from "src/interfaces/IProdutoRepository";
-import { Produto } from "src/domain/Produto";
+import {Produto} from '../domain/Produto'
 
 export class ProdutoService {
   private produtoRepository: IProdutoRepository;
