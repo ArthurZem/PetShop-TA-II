@@ -41,4 +41,15 @@ export class AnimalService{
         }
     }
 
+    public async update(animal: Animal): Promise<Animal> {
+        const index = this.animais.findIndex((c) => c.id === animal.id);
+
+        if (index === -1) {
+            throw new Error('Animal não encontrado');
+        }
+
+        this.animais[index] = animal;
+
+        return animal;
+    }
 }

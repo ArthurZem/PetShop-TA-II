@@ -5,4 +5,5 @@ export interface IAnimalRepository {
     findByEspecie(nome: string): Promise<Animal[]>;
     save(animal: Animal): Promise<void>;
     delete(animal: Animal): Promise<void>;
+    update(animal: Animal): Promise<void>;
   }

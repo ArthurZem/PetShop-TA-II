@@ -7,6 +7,7 @@ export class ProdutoRepository implements IProdutoRepository {
   constructor() {
     this.produtos = [];
   }
+  
   public async findByName(nome: string): Promise<Produto[]> {
     const produtosEncontrados = this.produtos.filter((produto) =>
       produto.nome.toLowerCase().includes(nome.toLowerCase())
@@ -35,6 +36,13 @@ export class ProdutoRepository implements IProdutoRepository {
     const index = this.produtos.findIndex((p) => p.id === produto.id);
     if (index !== -1) {
       this.produtos.splice(index, 1);
+    }
+  }
+
+  public async update(produto: Produto): Promise<void> {
+    const index = this.produtos.findIndex((p) => p.id === produto.id);
+    if (index !== -1) {
+      this.produtos[index] = produto;
     }
   }
 }

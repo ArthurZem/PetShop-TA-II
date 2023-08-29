@@ -7,4 +7,6 @@ export interface IClienteRepository {
   save(cliente: Cliente): Promise<void>;
   delete(cliente: Cliente): Promise<void>;
   getAnimaisDoDono(clienteId: number): Promise<Animal[]>;
+  update(cliente: Cliente): Promise<void>;
+  getAll(): Promise<Cliente[]>;
 }

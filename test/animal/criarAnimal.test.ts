@@ -1,74 +1,99 @@
-import { Request, Response } from "express";
-import { AnimalController } from "../../src/controllers/AnimalController";
-import { Animal } from "../../src/domain/Animal";
-import { Cliente } from "../../src/domain/Cliente";
+import { Request, Response } from 'express';
+import { AnimalController } from '../../src/controllers/AnimalController';
 
-describe("AnimalController", () => {
-    let mockAnimalService: any;
-    let animalController: AnimalController;
+describe('AnimalController - criarAnimal', () => {
+  const mockAnimalService: any = {
+    criarAnimal: jest.fn(),
+  };
 
-    beforeEach(() => {
-        mockAnimalService = {
-            criarAnimal: jest.fn(),
-            findById: jest.fn().mockResolvedValue(undefined),
-        };
-        animalController = new AnimalController(mockAnimalService);
-    });
+  const animalController = new AnimalController(mockAnimalService);
 
-    describe("CriarAnimal", () => {
-        it("deve criar um animal com dados válidos", async () => {
-            const mockRequest: Partial<Request> = {
-                body: {
-                    id: 1,
-                    nome: "Rex",
-                    especie: "Cachorro",
-                    raca: "Labrador",
-                    idade: 2,
-                    dono: new Cliente(1, "João", "(11) 99999-9999", "Rua A"),
-                },
-            };
-            const mockResponse: Partial<Response> = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn(),
-            };
-            const mockAnimal: Animal = new Animal(1, "Rex", "Cachorro", "Labrador", 2, new Cliente(1, "João", "(11) 99999-9999", "Rua A"));
-            mockAnimalService.criarAnimal.mockResolvedValue(mockAnimal);
+  it('deve criar um Animal com sucesso', async () => {
+    const mockRequest: Partial<Request> = {
+      body: {
+        id: 1,
+        nome: 'Rex',
+        especie: 'Cachorro',
+        raca: 'Golden Retriever',
+        idade: 2,
+        dono: 'João',
+      },
+    };
 
-            await animalController.CriarAnimal(mockRequest as Request, mockResponse as Response);
+    const animalMock = { id: 1, nome: 'Rex', especie: 'Cachorro' };
+    mockAnimalService.criarAnimal.mockResolvedValue(animalMock);
 
-            expect(mockAnimalService.criarAnimal).toHaveBeenCalledWith(
-                1,
-                "Rex",
-                "Cachorro",
-                "Labrador",
-                2,
-                expect.any(Cliente)
-            );
+    const mockResponse: Partial<Response> = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
 
-            expect(mockResponse.status).toBeCalledWith(201);
-            expect(mockResponse.json).toHaveBeenCalledWith(mockAnimal);
-        });
+    await animalController.criarAnimal(mockRequest as Request, mockResponse as Response);
 
-        it("deve retornar um erro 500 com dados inválidos", async () => {
-            const mockRequest: Partial<Request> = {
-                body: {
-                    id: 1,
-                    nome: "Rex",
-                    especie: "Cachorro",
-                    raca: "Labrador",
-                    idade: 2,
-                },
-            };
-            const mockResponse: Partial<Response> = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn(),
-            };
-            mockAnimalService.criarAnimal.mockRejectedValue(new Error("Erro ao criar animal."));
+    expect(mockAnimalService.criarAnimal).toHaveBeenCalledWith(
+      1,
+      'Rex',
+      'Cachorro',
+      'Golden Retriever',
+      2,
+      'João'
+    );
 
-            await animalController.CriarAnimal(mockRequest as Request, mockResponse as Response);
+    expect(mockResponse.status).toHaveBeenCalledWith(201);
+    expect(mockResponse.json).toHaveBeenCalledWith(animalMock);
+  });
 
-            expect(mockResponse.status).toBeCalledWith(500);
-            expect(mockResponse.json).toHaveBeenCalledWith({ error: "Erro ao criar animal." });
-        });
-    });
+  it('deve retornar um erro 400 para campos obrigatórios não preenchidos', async () => {
+    const mockRequest: Partial<Request> = {
+      body: {
+        nome: 'Rex',
+        raca: 'Golden Retriever',
+        idade: 2,
+      },
+    };
+
+    const mockResponse: Partial<Response> = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    await animalController.criarAnimal(mockRequest as Request, mockResponse as Response);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(400);
+    expect(mockResponse.json).toHaveBeenCalledWith({ error: 'Dados inválidos.' });
+  });
+
+  it('deve retornar um erro 500 em caso de falha ao criar o Animal', async () => {
+    const mockRequest: Partial<Request> = {
+      body: {
+        id: 1,
+        nome: 'Rex',
+        especie: 'Cachorro',
+        raca: 'Golden Retriever',
+        idade: 2,
+        dono: 'João',
+      },
+    };
+
+    mockAnimalService.criarAnimal.mockRejectedValue(new Error('Erro ao criar Animal'));
+
+    const mockResponse: Partial<Response> = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    await animalController.criarAnimal(mockRequest as Request, mockResponse as Response);
+
+    expect(mockAnimalService.criarAnimal).toHaveBeenCalledWith(
+      1,
+      'Rex',
+      'Cachorro',
+      'Golden Retriever',
+      2,
+      'João'
+    );
+
+    expect(mockResponse.status).toHaveBeenCalledWith(500);
+    expect(mockResponse.json).toHaveBeenCalledWith({ error: 'Erro ao criar animal.' });
+  });
 });

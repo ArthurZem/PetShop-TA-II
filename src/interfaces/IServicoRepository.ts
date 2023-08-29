@@ -6,4 +6,5 @@ export interface IServicoRepository {
   findByName(nome: string): Promise<Servico[]>;
   save(cliente: Servico): Promise<void>;
   delete(cliente: Servico): Promise<void>;
+  update(cliente: Servico): Promise<void>;
 }

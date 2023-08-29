@@ -6,4 +6,5 @@ export interface IProdutoRepository {
   findByName(nome: string): Promise<Produto[]>;
   save(cliente: Produto): Promise<void>;
   delete(cliente: Produto): Promise<void>;
+  update(cliente: Produto): Promise<void>;
 }

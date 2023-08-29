@@ -36,4 +36,22 @@ export class AnimalRepository implements IAnimalRepository {
       this.animais.splice(index, 1);
     }
   }
+
+  public async findAll(): Promise<Animal[]> {
+    return this.animais;
+  }
+
+  public async findByNome(nome: string): Promise<Animal[]> {
+    return this.animais.filter((c) => c.nome === nome);
+  }
+
+  public async update(animal: Animal): Promise<void> {
+    const index = this.animais.findIndex((c) => c.id === animal.id);
+
+    if (index !== -1) {
+      this.animais[index] = animal;
+    }
+  }
+
+
 }

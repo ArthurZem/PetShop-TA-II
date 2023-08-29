@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ClienteService } from "src/application/ClienteService";
+import { ClienteService } from "src/services/ClienteService";
 import { Animal } from "src/domain/Animal";
 
 export class ClienteController {
@@ -64,4 +64,13 @@ export class ClienteController {
             res.status(500).json({ error: "Erro ao tentar deletar o Cliente." });
         }
     }
+
+    public async getAllClientes(req: Request, res: Response): Promise<void> {
+        try {
+          const clientes = await this.clienteService.getAll();
+          res.json(clientes);
+        } catch (error) {
+          res.status(500).json({ message: "Erro ao listar clientes" });
+        }
+      }
 }

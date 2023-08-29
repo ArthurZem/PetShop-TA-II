@@ -40,4 +40,5 @@ export class UsuarioRepository implements IUsuarioRepository {
 
     return usuario;
   }
+ 
 }

@@ -37,4 +37,11 @@ export class ServicoRepository implements IServicoRepository {
       this.Servicos.splice(index, 1);
     }
   }
+
+  public async update(Servico: Servico): Promise<void> {
+    const index = this.Servicos.findIndex((s) => s.id === Servico.id);
+    if (index !== -1) {
+      this.Servicos[index] = Servico;
+    }
+  }
 }

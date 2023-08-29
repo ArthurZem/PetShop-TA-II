@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { AnimalService } from "src/application/AnimalService";
+import { AnimalService } from "src/services/AnimalService";
 import { Animal } from "src/domain/Animal";
 
 export class AnimalController {
@@ -10,34 +10,48 @@ export class AnimalController {
         this.animalService = animalService;
     }
 
-    public async CriarAnimal(req: Request, res: Response): Promise<void>{
+    public async criarAnimal(req: Request, res: Response): Promise<void>{
         try{
             const { id, nome, especie, raca, idade, dono} = req.body;
 
-            const animal = await this.animalService.criarAnimal(id, nome, especie, raca, idade, dono);
+            if(!id || !nome || !especie || !raca || !idade || !dono){
+                res.status(400).json({error: 'Dados inválidos.'})
+                return;
+            }
 
+            const animal = await this.animalService.criarAnimal(id, nome, especie, raca, idade, dono);
+            if(!animal) res.status(400).json({error: 'Erro ao criar animal.'})
+            else{
+                res.status(201).json(animal);
+            }
             res.status(201).json(animal);
         }catch(error){
             res.status(500).json({error: 'Erro ao criar animal.'})
         }
     }
 
-    public async findById(req: Request, res: Response): Promise<void>{
-        try{
-            const animalId = Number(req.params.id);
-
-            const animal = await this.animalService.findById(animalId);
-         
-            if(animal){
-                res.status(200).json(animal)
-            }
-            else{
-                res.status(404).json({error: 'Animal não encontrado.'})
-            }
-        } catch(error){
-            res.status(500).json({ error:'Erro ao tentar obter animal.'})
+    public async findById(req: Request, res: Response): Promise<void> {
+        try {
+          const animalId = Number(req.params.id);
+      
+          if (!animalId) {
+            res.status(400).json({ error: 'Id inválido.' });
+            return;
+          }
+      
+          const animal = await this.animalService.findById(animalId);
+      
+          if (!animal) {
+            res.status(404).json({ error: 'Animal não encontrado.' });
+            return;
+          }
+      
+          res.status(200).json(animal);
+        } catch (error) {
+          res.status(500).json({ error: 'Erro ao tentar obter animal.' });
         }
-    }
+      }
+      
 
     public async findByEspecie(req: Request, res: Response): Promise<void>{
         try{
@@ -72,4 +86,4 @@ export class AnimalController {
             res.status(500).json({ error: "Erro ao tentar deletar o animal." });
         }
     }
-}
+  }

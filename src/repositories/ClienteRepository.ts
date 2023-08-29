@@ -42,4 +42,16 @@ export class ClienteRepository implements IClienteRepository {
   public async getAnimaisDoDono(donoId: number): Promise<Animal[]>{
     return this.clienteRepository.getAnimaisDoDono(donoId)
   }
+
+  public async update(cliente: Cliente): Promise<void> {
+    const index = this.clientes.findIndex((c) => c.id === cliente.id);
+
+    if (index !== -1) {
+      this.clientes[index] = cliente;
+    }
+  }
+
+  public async getAll(): Promise<Cliente[]> {
+    return this.clientes;
+  }
 }

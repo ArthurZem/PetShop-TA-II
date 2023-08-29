@@ -21,6 +21,10 @@ export class ClienteService{
         return cliente;
     }
 
+    public async getAll(): Promise<Cliente[]> {
+        return this.clienteRepository.getAll();
+    }
+
     public async findById(id:number): Promise<Cliente | null> {
         const cliente = await this.clienteRepository.findById(id);
 
