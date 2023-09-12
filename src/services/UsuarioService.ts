@@ -16,23 +16,17 @@ export class UsuarioService {
   }
 
   public async login(login: string, password: string): Promise<string | null> {
-    const usuario = await this.usuarioRepository.login(login, password);
-    if (!usuario) return null;
-
-    const token = this.generateToken(usuario.id, usuario.login);
-    return token;
-  }
-
-  private generateToken(id: number, login: string): string {
-    const payload = {
-      id: id,
-      login: login,
-    };
-
-    const options = {
-      expiresIn: "1h",
-    };
-
-    return jwt.sign(payload, process.env.JWT_SECRET || "", options);
+    try{
+      const usuario = await this.usuarioRepository.login(login, password);
+      if(usuario){
+        const token = jwt.sign({id: usuario.id, login: usuario.login}, 'secret' , {expiresIn: '1h'});
+        return token;
+      }
+      else{
+        return null;
+      }
+    }catch(error){
+      throw new Error('Erro ao realizar login');
+    }
   }
 }

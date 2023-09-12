@@ -20,7 +20,10 @@ import { UsuarioService } from './services/UsuarioService';
 import { UsuarioRepository } from './repositories/UsuarioRepository';
 import { UsuarioController } from './controllers/UsuarioController';
 
+var cors = require('cors')
+
 const app = express()
+app.use(cors())
 const route = Router();
 app.use(loggerMiddleware);
 
@@ -83,5 +86,5 @@ app.get('/produtos',produtoController.listarProdutos.bind(produtoController));
 const usuarioRepository = new UsuarioRepository();
 const usuarioService = new UsuarioService(usuarioRepository);
 const usuarioController = new UsuarioController(usuarioService);
-app.post('/produtos',usuarioController.criarUsuario.bind(usuarioController));
-app.get('/login',usuarioController.login.bind(usuarioController));
+app.post('/user',usuarioController.criarUsuario.bind(usuarioController));
+app.post('/login',usuarioController.login.bind(usuarioController));

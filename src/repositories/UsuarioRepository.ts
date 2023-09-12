@@ -27,17 +27,17 @@ export class UsuarioRepository implements IUsuarioRepository {
   }
 
   public async login(login: string, password: string): Promise<Usuario | null> {
+    // Busca o usuário pelo login
     const usuario = this.usuarios.find((u) => u.login === login);
 
-    if (!usuario) {
-      return null;
-    }
+    // Verifica se o usuário existe
+    if (!usuario) return null;
 
-    const isPasswordValid = await bcrypt.compare(password, usuario.password);
-    if (!isPasswordValid) {
-      return null;
-    }
+    // Verifica se a senha está correta
+    const match = await bcrypt.compare(password, usuario.password);
+    if (!match) return null;
 
+    // Retorna o usuário
     return usuario;
   }
  

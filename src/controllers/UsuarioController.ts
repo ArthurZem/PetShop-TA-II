@@ -21,18 +21,16 @@ export class UsuarioController {
   }
 
   public async login(req: Request, res: Response): Promise<void> {
-    try {
-      const { login, password } = req.body;
-
+    const {login, password} = req.body;
+    try{
       const token = await this.usuarioService.login(login, password);
-
-      if (token) {
-        res.status(200).json({ token });
-      } else {
-        res.status(401).json({ error: 'Credenciais inválidas.' });
+      if(token){
+        res.json({token: token});
+      }else{
+        res.status(401).json({error: 'Credenciais inválidas.'});
       }
-    } catch (error) {
-      res.status(500).json({ error: 'Erro ao realizar login.' });
+    }catch(error){
+      res.status(500).json({error: 'Erro ao realizar login'});
     }
   }
 }
